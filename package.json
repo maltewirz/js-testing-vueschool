@@ -1,0 +1,33 @@
+{
+  "name": "js-testing-vueschool",
+  "version": "1.0.0",
+  "description": "",
+  "main": "basic-test-lesson3.js",
+  "scripts": {
+    "test": "jest --watch"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maltewirz/js-testing-vueschool.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maltewirz/js-testing-vueschool/issues"
+  },
+  "homepage": "https://github.com/maltewirz/js-testing-vueschool#readme",
+  "dependencies": {
+    "babel-core": "^6.26.3",
+    "jest": "^26.1.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.10.3",
+    "babel-jest": "^26.1.0"
+  }
+}
