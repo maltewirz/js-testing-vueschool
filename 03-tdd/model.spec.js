@@ -16,12 +16,19 @@ test('model structure', () => {
 // $ prefix marks it as an internal property
 
 describe('record', () => {
-  const heroes = [{ name: 'Batman'}, { name: 'Black Panther' }];
+  const heroes = [{ id: 1, name: 'Batman'}, { name: 'Black Panther' }];
 
   test('can add data to the collection', () => {
     const model = new Model();
     model.record(heroes);
-    expect(model.$collection).toEqual(heroes);
+    
+    expect(model.$collection).toEqual([
+      heroes[0],
+      {
+        id: expect.any(Number),
+        name: heroes[1].name
+      }
+    ]);
   });
 
   test('gets called when data is passed to the model', () => {
@@ -53,3 +60,46 @@ describe('all', () => {
 
   });
 });
+
+describe('find', () => {
+  const heroes = [{ id: 1, name: 'Batman'}, { name: 'Black Panther' }];
+
+  test('return null if nothing matches', () => {
+    const model = new Model();
+    expect(model.find(1)).toEqual(null);
+  });
+
+  test('find returns a matching entry', () => {
+    const model = new Model(heroes);
+    expect(model.find(1)).toEqual(heroes[0]);
+  })
+});
+
+describe('update', () => {
+  const heroesAndVillains = [{ id: 1, name: 'Batman' }];
+  let model;
+
+  beforeEach(() => {
+    const dataset = JSON.parse(JSON.stringify(heroesAndVillains));
+    model = new Model(dataset);
+  });
+
+  test('an entry by id', () => {
+    model.update(1, {name: 'Joker' })
+    expect(model.find(1).name).toBe('Joker');
+  });
+
+  test('extend an entry by id', () => {
+    model.update(1, { cape: true });
+    expect(model.find(1)).toEqual(
+      expect.objectContaining({
+        name: 'Batman',
+        cape: true
+      })
+    )
+  });
+
+  test('return false if no entry matches', () => {
+    expect(model.update(2, {})).toBe(false);
+  })
+})
